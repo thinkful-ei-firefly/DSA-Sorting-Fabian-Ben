@@ -131,5 +131,20 @@ const data = [
 ];
 
 const sorted = qSort(data);
-console.log(data);
-console.log(sorted);
+//console.log(data);
+//console.log(sorted);
+
+
+const books = [
+  'Book 5',
+  'Book 1',
+  'C Book',
+  'A book',
+  'T book',
+  'W book',
+  'D book'
+]
+
+
+const sorted1 = qSort(books);
+console.log(sorted1);
