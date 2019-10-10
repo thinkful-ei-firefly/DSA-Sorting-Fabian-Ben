@@ -123,6 +123,18 @@ class LinkedList {
     //found it
     return currNode;
   }
+  size() {
+    let counter = 0;
+    let currNode = this.head;
+    if (!currNode) {
+      return counter;
+    } else counter++;
+    while (!(currNode.next == null)) {
+      counter++;
+      currNode = currNode.next;
+    }
+    return counter;
+  }
 }
 
 module.exports = LinkedList;
