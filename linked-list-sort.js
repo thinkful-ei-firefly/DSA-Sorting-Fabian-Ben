@@ -1,39 +1,64 @@
 const LinkedList = require('./LinkedList');
 
-function mSort(array) {
-  if (array.length <= 1) {
-    return array;
+function mSort(list) {
+  // list.displayList();
+  const size = list.size();
+  if (size <= 1) {
+    return list;
   }
 
-  const middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle, array.length);
+  //              0         1                 2         3
+  // this.head >> val: 10, nxt: 10 >> val: 2 ptr: null >> null || item3 >> item4
+
+  const middle = Math.floor(size / 2);
+
+  let left = new LinkedList();
+  let right = new LinkedList();
+
+  let curr = list.head;
+
+  while (curr !== list.findNthElement(middle)) {
+    left.insertLast(curr.value);
+    curr = curr.next;
+  }
+
+  curr = list.findNthElement(middle);
+  while (curr !== null) {
+    right.insertLast(curr.value);
+    curr = curr.next;
+  }
 
   left = mSort(left);
   right = mSort(right);
-  return merge(left, right, array);
+  return merge(left, right, list);
 }
 
-function merge(left, right, array) {
-  let leftIndex = 0;
-  let rightIndex = 0;
-  let outputIndex = 0;
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex] < right[rightIndex]) {
-      array[outputIndex++] = left[leftIndex++];
+function merge(left, right) {
+  const merged = new LinkedList();
+  let currL = left.head;
+  let currR = right.head;
+
+  while (currL && currR) {
+    if (currL.value < currR.value) {
+      merged.insertLast(currL.value);
+      currL = currL.next;
     } else {
-      array[outputIndex++] = right[rightIndex++];
+      merged.insertLast(currR.value);
+      currR = currR.next;
     }
   }
 
-  for (let i = leftIndex; i < left.length; i++) {
-    array[outputIndex++] = left[i];
+  while (currL) {
+    merged.insertLast(currL.value);
+    currL = currL.next;
   }
 
-  for (let i = rightIndex; i < right.length; i++) {
-    array[outputIndex++] = right[i];
+  while (currR) {
+    merged.insertLast(currR.value);
+    currR = currR.next;
   }
-  return array;
+
+  return merged;
 }
 
 function makeLL() {
@@ -145,5 +170,5 @@ function makeLL() {
 }
 
 const unsorted = makeLL();
-
-mSort(unsorted);
+const sorted = mSort(unsorted);
+sorted.displayList();
